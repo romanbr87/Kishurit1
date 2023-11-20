@@ -1,29 +1,15 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Button, Card, Col, Container, Modal, Row } from "react-bootstrap";
 import axios from "axios";
-// import { Octokit } from '@octokit/rest';
 import { isMobile } from "react-device-detect";
-// import { Octokit } from "https://esm.sh/@octokit/rest";
-// import { createOrUpdateTextFile } from "https://esm.sh/@octokit/plugin-create-or-update-text-file";
-import { Octokit } from "@octokit/rest";
-import { createOrUpdateTextFile } from "@octokit/plugin-create-or-update-text-file";
 
 import BusEditBlock from "./Components/BusEditBlock";
 import ButtonEditMenu from "./Components/ButtonEditMenu";
-import { divideArrayBySetsOfN } from "./funcs";
+import { dbURL } from "./funcs";
 
 export default function AdminPage(props) {
-  // const busCss = `text-center bg-light rounded ${isMobile ? 'p-2' : 'p-4'}`
 
-  //const url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vSOMBWH8riSN_sATvwimeLBxgIL4JbV6qPg9QOJIkuzyZ5zmUFb0Pd7qHmI0TIiS5SgVW5hW13MHDv6/pub?output=csv`;
-  const url =
-    "https://raw.githubusercontent.com/romanbr87/romanbr87/main/avoda.json";
   const [data, setData] = useState();
-
-  const MyOctokit = Octokit.plugin(createOrUpdateTextFile);
-  const octokit = new MyOctokit({
-    auth: import.meta.env.VITE_GOOOGLE_TOKEN,
-  });
 
   const handleFormData = (e, ourFormData) => {
     e.preventDefault();
@@ -35,25 +21,6 @@ export default function AdminPage(props) {
     // setData((info) => {
     //   return newData;
     // });
-  };
-
-  const update = async (e) => {
-    e.preventDefault();
-    const info = JSON.stringify({ obj: data }, null, 2);
-    console.log(data);
-    const { updated } = await octokit.createOrUpdateTextFile({
-      owner: "romanbr87",
-      repo: "romanbr87",
-      path: "avoda.json",
-      content: info,
-      message: "updated file",
-    });
-
-    if (updated) {
-      console.log("The data was update");
-    } else {
-      console.log("The file doesn't not exist");
-    }
   };
 
   const fetchUrl = (state, url) => {
@@ -98,7 +65,7 @@ export default function AdminPage(props) {
       list: updatedList,
     });
   };
-  const setOldData = (data, idx) => {
+  const setNewData = (data, idx) => {
     setData((prev) => {
       var currList = [...prev?.list];
       currList[idx] = data;
@@ -110,16 +77,12 @@ export default function AdminPage(props) {
   };
 
   useEffect(() => {
-    console.clear();
-    fetchUrl(setData, url);
-
-    var n = 6;
-    console.log(`[${Math.floor(n / 3)}][${n % 3}]`);
+    fetchUrl(setData, dbURL);
   }, []);
 
   return (
     <>
-      <ButtonEditMenu update={update} />
+      <ButtonEditMenu info={data}  />
       <Container className={`mt-5 ${isMobile ? "pt-2" : "pt-2"}`}>
         {/* <linearGradient
       colors={['#000000', '#ffffff']}
@@ -131,7 +94,7 @@ export default function AdminPage(props) {
         <Title className={`${isMobile ? "mb-3" : "mb-2"}`}>עסקים לעריכה</Title>
         <BusEditBlock
           data={data}
-          setData={setOldData}
+          setData={setNewData}
           deleteItem={deleteItem}
         />
       </Container>
