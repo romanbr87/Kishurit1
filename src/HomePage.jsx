@@ -24,7 +24,7 @@ import WelcomeJumbotron from "./Components/WelcomeJumbatron";
 import CitySelect from "./Components/CitiesSelect";
 
 export default function HomePage(props) {
-  const busCss = `text-center bg-light rounded ${isMobile ? "p-2" : "p-4"}`;
+  // const busCss = `text-center bg-light rounded ${isMobile ? "p-2" : "p-4"}`;
   //const url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vSOMBWH8riSN_sATvwimeLBxgIL4JbV6qPg9QOJIkuzyZ5zmUFb0Pd7qHmI0TIiS5SgVW5hW13MHDv6/pub?output=csv`;
   const url1 =
     "https://raw.githubusercontent.com/romanbr87/romanbr87/main/avoda.json";
