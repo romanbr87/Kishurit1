@@ -7,19 +7,19 @@ import { createOrUpdateTextFile } from "@octokit/plugin-create-or-update-text-fi
 
 const MyOctokit = Octokit.plugin(createOrUpdateTextFile);
 const octokit = new MyOctokit({
-  auth: process.env.REACT_APP_GOOOGLE_TOKEN,
+  auth: import.meta.env.REACT_APP_GOOOGLE_TOKEN,
 });
 
-export const dbURL = process.env.REACT_APP_URL;
+export const dbURL = import.meta.env.REACT_APP_URL;
 
 export default async function updateDB (info) {
   info.active = false;
   info = JSON.stringify({ obj: info }, null, 2);
   console.log(info);
   const { updated } = await octokit.createOrUpdateTextFile({
-    owner: process.env.REACT_APP_USER,
-    repo: process.env.REACT_APP_REPO,
-    path: process.env.REACT_APP_FILE,
+    owner: import.meta.env.REACT_APP_USER,
+    repo: import.meta.env.REACT_APP_REPO,
+    path: import.meta.env.REACT_APP_FILE,
     content: info,
     message: "updated file",
   });
@@ -44,7 +44,7 @@ export function divideArrayBySetsOfN(array, n = 3) {
 export const sendEmail = async (e, info) => {
   console.clear();
   e.preventDefault();
-  let apiKey = process.env.REACT_APP_EMAIL_AUTH;
+  let apiKey = import.meta.env.REACT_APP_EMAIL_AUTH;
   let apiURL = "https://api.brevo.com/v3/smtp/email";
   //let apiURL = "https://api.sendinblue.com/v3/smtp/email";
 
